@@ -1,0 +1,47 @@
+
+.contenedor {
+  width: 100%;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  margin: 0;
+  display: -webkit-flex !important;
+  display: flex !important;
+  -webkit-flex-direction: column !important;
+  flex-direction: column !important;
+  -webkit-justify-content: center !important;
+  justify-content: center !important;
+}
+
+.base {
+  width: 90%;
+  height: 280px;
+  margin: auto;
+  padding: 0; /*0.3em;*/
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-between;
+  justify-content: space-between;
+  border-radius: 0.3em;
+  background-color: transparent;
+  transform: rotate(180deg);
+  border: 0.1em black solid;
+  background-color: black;
+}
+
+.barra {
+  width: 320px;
+  z-index: 5;
+  background: orange; /* transparent; */
+  /*
+  border: 0.01em white solid;
+  box-shadow: 2px 2px 2px white, -2px -2px 2px white,
+    2px -2px 2px white, -2px 2px 2px white;
+  -moz-box-shadow: 2px 2px 2px white, -2px -2px 2px white,
+    2px -2px 2px white, -2px 2px 2px white;
+  -webkit-box-shadow: 2px 2px 2px white, -2px -2px 2px white,
+    2px -2px 2px white, -2px 2px 2px white;
+  */
+  transition: background-color 1s;
+}
