@@ -45,3 +45,8 @@
   */
   transition: background-color 1s;
 }
+
+#audioplayer {
+  width: 80%;
+  margin: auto;
+}

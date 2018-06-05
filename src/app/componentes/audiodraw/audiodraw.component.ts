@@ -12,6 +12,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
     <div class='barra' *ngFor='let x of cantidad'></div>
     </div>
     <h5>{{audio.src}}</h5>
+    <audio id='audioplayer' controls='true'></audio>
     </div>
     `,
   styleUrls: ['./audiodraw.component.css']
@@ -31,31 +32,7 @@ export class AudiodrawComponent implements OnInit, OnDestroy {
   analyser = undefined;
   data = undefined;
 
-  constructor(
-    private _audioContext: AudioContext) {
-      /* Crea un nuevo objeto audio con posibilidad de dibujarse */
-      this.audio = new Audio();
-      this.audio.preload = 'none';
-      this.audio.volume = this.vol;
-      this.audio.autoplay = false;
-      this.audio.crossOrigin = 'anonymous';
-
-      // ANALIZADOR
-      this.src = this._audioContext.createMediaElementSource(this.audio);
-      this.analyser = this._audioContext.createAnalyser();
-      this.analyser.fftSize = 128;
-      this.src.connect(this.analyser);
-      this.src.connect(this._audioContext.destination);
-      this.data = new Uint8Array(this.analyser.fftSize);
-
-      const url = 'http://media-ice.musicradio.com/CapitalUKMP3';
-      this.url = url;
-      this.audio.src = this.url;
-   }
-
-  rejectedPromise(error) {
-    console.log('ERROR: ', error, this.audio.src);
-  }
+  constructor(private _audioContext: AudioContext) {}
 
   redraw(self) {
     if (self.data !== undefined) {
@@ -72,23 +49,27 @@ export class AudiodrawComponent implements OnInit, OnDestroy {
     }
   }
 
-  getRandomColor(self, alpha= 1) {
-    const r = Math.floor((Math.random() * 255) + 0);
-    const g = Math.floor((Math.random() * 255) + 0);
-    const b = Math.floor((Math.random() * 255) + 0);
-    self.color = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-  }
-
   ngOnInit() {
-    const promise = this.audio.play();
-    if (promise) {
-      promise.then(function(val) {
-        // val represents the fulfillment value
-      }).catch(this.rejectedPromise);
-    } else {}
+    /* Crea un nuevo objeto audio con posibilidad de dibujarse */
+    this.audio = document.getElementById('audioplayer') as HTMLAudioElement; // new Audio();
+    this.audio.preload = 'none';
+    this.audio.volume = this.vol;
+    this.audio.autoplay = false;
+    this.audio.crossOrigin = 'anonymous';
+
+    // ANALIZADOR
+    this.src = this._audioContext.createMediaElementSource(this.audio);
+    this.analyser = this._audioContext.createAnalyser();
+    this.analyser.fftSize = 128;
+    this.src.connect(this.analyser);
+    this.src.connect(this._audioContext.destination);
+    this.data = new Uint8Array(this.analyser.fftSize);
+
+    const url = 'http://media-ice.musicradio.com/CapitalUKMP3';
+    this.url = url;
+    this.audio.src = this.url;
 
     setInterval(this.redraw, 10, this);
-    // setInterval(this.getRandomColor, 3000, this);
   }
 
   ngOnDestroy() {
