@@ -12,6 +12,17 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
     <div class='barra' *ngFor='let x of cantidad'></div>
     </div>
     <h5>{{audio.src}}</h5>
+
+    <div class='contenedor2'>
+      <div class='basecuadrados'>
+      <div class='barracuadrado' *ngFor='let x of cantidad'></div>
+      </div>
+
+      <div class='basecirculos'>
+      <div class='barracirculo' *ngFor='let x of cantidad'></div>
+      </div>
+    </div>
+
     <audio id='audioplayer' controls='true'></audio>
     </div>
     `,
@@ -23,7 +34,7 @@ export class AudiodrawComponent implements OnInit, OnDestroy {
   url = '';
   vol = 0.05;
   cantidad = Array(32);
-  color;
+  // color;
 
   audio = undefined;
 
@@ -38,13 +49,30 @@ export class AudiodrawComponent implements OnInit, OnDestroy {
     if (self.data !== undefined) {
       self.analyser.getByteFrequencyData(self.data);
       // self.analyser.getByteTimeDomainData(self.data); // osciloscopio
+      // BARRAS
       const barras = document.getElementsByClassName('barra');
       const lado = 320;
       for (let i = 0; i < barras.length; i++) {
         const barra = barras[i] as HTMLDivElement;
         const altura = (self.data[i] / 256) * lado;
         barra.style.height = altura + 'px';
-        barra.style.backgroundColor = self.color;
+        // barra.style.backgroundColor = self.color;
+      }
+      // CIRCULOS Y CUADRADOS
+      const barracuadrados = document.getElementsByClassName('barracuadrado');
+      for (let i = 0; i < barracuadrados.length; i++) {
+        const barra = barracuadrados[i] as HTMLDivElement;
+        const altura = (self.data[i] / 256) * lado;
+        barra.style.height = altura + 'px';
+        barra.style.width = altura + 'px';
+      }
+      // CIRCULOS
+      const barracirculos = document.getElementsByClassName('barracirculo');
+      for (let i = 0; i < barracirculos.length; i++) {
+        const barra = barracirculos[i] as HTMLDivElement;
+        const altura = (self.data[i] / 256) * lado;
+        barra.style.height = altura + 'px';
+        barra.style.width = altura + 'px';
       }
     }
   }
